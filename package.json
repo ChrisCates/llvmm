@@ -1,0 +1,18 @@
+{
+  "name": "llvmvm",
+  "version": "1.0.0",
+  "description": "LLVMVM Manager",
+  "main": "dist/llvmvm.js",
+  "repository": "https://github.com/ChrisCates/llvmvm.git",
+  "author": "Chris Cates <hello@chriscates.ca>",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "colors": "^1.3.0",
+    "execa": "^0.10.0",
+    "fs-jetpack": "^1.3.0",
+    "meow": "^5.0.0",
+    "path": "^0.12.7",
+    "superagent": "^3.8.3"
+  }
+}

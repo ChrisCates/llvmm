@@ -1,0 +1,8 @@
+Welcome to LLVMVM, Chris Cates appreciates you using this tool!
+
+If you're new to LLVMVM make sure to add the following to your ~/.bash_profile:
+
+export LLVMVM="$HOME/.llvmvm/active"
+export PATH="$LLVMVM:$PATH"
+
+Using llvmvm is easy.
