@@ -1,18 +1,27 @@
-#!/usr/bin/env node
-
 declare var process;
+declare var require;
 
 import 'colors';
 
-import * as meow from 'meow';
-import { read } from 'fs-jetpack';
-import { join } from 'path';
+import * as cli from 'cli';
+import { scanner } from './scanner';
 
-let cliInfo = read(join(__dirname, 'cli.info.txt'));
+let options = cli.parse({
+    os: ['o', 'The desired OS to work with', 'string', 'darwin'],
+    version: ['v', 'The desired version of LLVM', 'string', '6.0.1'],
+    dir: ['d', 'The desired installation directory for LLVM', 'string', '~/.llvm/'],
+    scan: ['s', 'Scan versions'],
+    scanv: ['sv', 'Scan version for packages', 'string', null]
+});
 
-let cli = meow(
-    cliInfo,
-    {
+console.log(options);
 
-    }
-)
+if (options['scan']) {
+    scanner()
+    .then(options => {
+        console.log(options.formattedResponse);
+    })
+    .catch(err => {
+        console.log(`${err}`.red);
+    })
+}
