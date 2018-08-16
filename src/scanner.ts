@@ -7,8 +7,6 @@ import * as CryptoJS from 'crypto-js';
 
 let SHA256 = CryptoJS.SHA256;
 
-console.log(SHA256("Message").toString());
-
 export const LLVMURL = 'http://releases.llvm.org/download.html';
 
 export function scanner() {
@@ -39,7 +37,7 @@ export function scanner() {
                     let numberFormat = `${i + 1})`;
                     let versionFormat = `${version}`;
 
-                    for (var i = numberFormat.length; i < 5; i++) {
+                    for (var i = numberFormat.length; i < 4; i++) {
                         numberFormat += " ";
                     }
 
@@ -61,6 +59,9 @@ export function scanner() {
 }
 
 export function scannerVersion(version) {
+    let versionInt = parseInt(version);
+    console.log(`Scanning for LLVM Release #${versionInt}...`.green);
+
     return new Promise((resolve, reject) => {
         superagent
         .get(LLVMURL)
@@ -71,18 +72,48 @@ export function scannerVersion(version) {
                 let HTML = res.text;
                 let $ = cheerio.load(HTML);
 
-                $('div.rel_boxtext ul:last-of-type a').each((i, el) => {
-                    let title = $(el).text();
-                    let sig = title.match('(.sig)') ? true : false;
-                    let src = title.toLowerCase().match('source code') ? true : false;
-                    let test = title.toLowerCase().match('test suite') ? true : false;
-                    
-                    if (!sig && !src && !test) {
-                        console.log(i, title);
+                let versions = [];
+
+                $('table.rel_section').each((i, el) => {
+                    let title = $(el).find('a').text();
+                    if (title.indexOf('Download') != -1) {
+                        let name = title.replace('Download ', '');
+                        versions.unshift({
+                            name,
+                            el
+                        });
                     }
                 });
 
-                return resolve('success');
+                let selected = versions[versionInt - 1];
+                let sel = selected['el'];
+
+                console.log(`#${versionInt} is ${selected['name']} with the available binaries:\n`.green);
+
+                let binaries = [];
+
+                $(sel).next().find('ul:last-of-type a').each((i, el) => {
+                    let title = $(el).text();
+                    if (title != '(.sig)') {
+                        binaries.unshift(title);
+                    }
+                });
+
+                let formattedResponse = ``;
+
+                binaries.forEach((bin, i) => {
+                    let numberFormat = `${i + 1})`;
+
+                    for (var i = numberFormat.length; i < 4; i++) {
+                        numberFormat += " ";
+                    }
+
+                    formattedResponse += `${numberFormat} ${bin}\n`.blue;
+                });
+
+                formattedResponse += `\nIf you want to install a binary run --install --version 6.0.1 --binary [#]\n`.green
+
+                return resolve({ binaries, formattedResponse });
             }
         });
     });
