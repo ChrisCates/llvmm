@@ -65,7 +65,3 @@ typings/
 
 # Ignore .DS_Store
 **/*.DS_Store
-
-# Ignore dist
-dist/*
-!dist/.gitkeep

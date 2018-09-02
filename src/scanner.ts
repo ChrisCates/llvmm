@@ -111,9 +111,59 @@ export function scannerVersion(version) {
                     formattedResponse += `${numberFormat} ${bin}\n`.blue;
                 });
 
-                formattedResponse += `\nIf you want to install a binary run --install --version 6.0.1 --binary [#]\n`.green
+                formattedResponse += `\nIf you want to install a binary run --install --version [#] --binary [#]\n`.green
 
                 return resolve({ binaries, formattedResponse });
+            }
+        });
+    });
+}
+
+export function downloadBinary(version, binary) {
+    let versionInt = parseInt(version);
+
+    return new Promise((resolve, reject) => {
+        superagent
+        .get(LLVMURL)
+        .end((err, res) => {
+            if (err) {
+                return reject('LLVM Download Page seems to be down');
+            } else {
+                let HTML = res.text;
+                let $ = cheerio.load(HTML);
+
+                let versions = [];
+
+                $('table.rel_section').each((i, el) => {
+                    let title = $(el).find('a').text();
+                    if (title.indexOf('Download') != -1) {
+                        let name = title.replace('Download ', '');
+                        versions.unshift({
+                            name,
+                            el
+                        });
+                    }
+                });
+
+                let selected = versions[versionInt - 1];
+                let sel = selected['el'];
+
+                let binaries = [];
+
+                $(sel).next().find('ul:last-of-type a').each((i, el) => {
+                    let title = $(el).text();
+                    let url = $(el).attr('href');
+                    if (title != '(.sig)') {
+                        binaries.unshift({ title, url });
+                    }
+                });
+
+                let formattedResponse = ``;
+                let selectedBinary = binaries[binary - 1];
+
+                formattedResponse += `\nWe are downloading ${selectedBinary['title']} for Version #${versionInt} (${selected['name']}) now.\n`.green
+
+                return resolve({ selectedBinary, formattedResponse });
             }
         });
     });

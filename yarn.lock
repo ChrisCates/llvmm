@@ -323,6 +323,10 @@ process@^0.11.1:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
 
+progress-bar-formatter@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/progress-bar-formatter/-/progress-bar-formatter-2.0.1.tgz#0d97ebb16467e2c2308373572176b7c3551e556e"
+
 qs@^6.5.1:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
@@ -360,6 +364,12 @@ shebang-regex@^1.0.0:
 signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
+
+status-bar@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/status-bar/-/status-bar-2.0.3.tgz#0d2680222c457e12de37cebe1438dd49c4e06e14"
+  dependencies:
+    progress-bar-formatter "^2.0.1"
 
 string_decoder@~1.1.1:
   version "1.1.1"

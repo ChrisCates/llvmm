@@ -1,6 +1,6 @@
 # LLVMVM
 ## By Chris Cates :star:
-### LLVM Version Manager for UNIX
+### LLVM Version Manager and Downloader for Unix
 
 ## Usage
 
@@ -8,34 +8,38 @@
 
 ```bash
 # With npm
-sudo npm install llvmvm -g
+sudo npm install @chriscates/llvmvm -g
 
 # With yarn
-yarn global add llvmvm
+yarn global add @chriscates/llvmvm
 ```
 
-2. Add llvmvm to your $PATH
-
-```bash
-# In your ~/.bash_profile add this:
-export LLVMVM="$HOME/.llvmvm/active"
-export PATH="$LLVMVM:$PATH"
-```
-
-3. Interact with LLVMVM and install what you need:
+2. Interact with LLVMVM and install what you need:
 
 ```bash
 # llvmvm help output
-llvmvm
-
-# or...
 llvmvm --help
 
 # Get list of all available versions of llvm
-llvmvm list
+llvmvm --scan
 
-# Install a specified version of llvm
-llvmvm install 4.0 darwin
+# Get specific OSes for a selected version
+llvmvm --scanv 45
+
+# Download and Install a specific version of LLVM
+llvmvm --install --version 45 --binary 15
+```
+
+## Compiling for yourself
+
+Assuming you have Typescript Compiler installed for Node.js... All you need to do is run:
+
+```bash
+# To build the scripts
+yarn build 
+
+# To test the script itself
+yarn start --help
 ```
 
 ## Additional Notes
